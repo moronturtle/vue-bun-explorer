@@ -161,7 +161,3 @@ bun run dev
 - `bun run dev:frontend` - Start frontend only
 - `bun run build` - Build all apps
 - `bun run lint` - Lint all apps
-
-## License
-
-MIT
