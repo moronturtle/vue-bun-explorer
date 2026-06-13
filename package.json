@@ -1,0 +1,16 @@
+{
+  "name": "vue-bun-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter './apps/*' dev",
+    "build": "bun run --filter './apps/*' build",
+    "lint": "bun run --filter './apps/*' lint",
+    "dev:backend": "bun run --filter '@vue-bun-explorer/backend' dev",
+    "dev:frontend": "bun run --filter '@vue-bun-explorer/frontend' dev"
+  }
+}
