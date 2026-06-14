@@ -3,11 +3,14 @@ import type { FolderNode } from "../types/folder.types"
 import { getFolderTree, searchFolders } from "../api/folder.api"
 import { useDebounce } from "../../../shared/composables/useDebounce"
 
-function findNode(nodes: FolderNode[], id: string): FolderNode | null {
+export type Crumb = { id: string; name: string }
+
+function findPath(nodes: FolderNode[], id: string, path: Crumb[] = []): Crumb[] | null {
   for (const n of nodes) {
-    if (n.id === id) return n
+    const curr = [...path, { id: n.id, name: n.name }]
+    if (n.id === id) return curr
     if (n.children) {
-      const found = findNode(n.children, id)
+      const found = findPath(n.children, id, curr)
       if (found) return found
     }
   }
@@ -21,7 +24,7 @@ export function useFolderTree() {
   const searchResults = ref<FolderNode[]>([])
   const isSearchActive = ref(false)
   const selectedId = ref<string | null>(null)
-  const selectedName = ref<string | null>(null)
+  const breadcrumb = ref<Crumb[]>([])
   const expanded = ref<Record<string, boolean>>({})
   const loading = ref(false)
   const error = ref<string | null>(null)
@@ -45,8 +48,7 @@ export function useFolderTree() {
   function selectFolder(id: string) {
     selectedId.value = id
     expanded.value[id] = true
-    const node = findNode(tree.value, id) ?? findNode(searchResults.value, id)
-    selectedName.value = node?.name ?? null
+    breadcrumb.value = findPath(tree.value, id) ?? findPath(searchResults.value, id) ?? []
   }
 
   function onSearch(q: string) {
@@ -71,5 +73,5 @@ export function useFolderTree() {
     isSearchActive.value ? searchResults.value : tree.value
   )
 
-  return { displayTree, selectedId, selectedName, expanded, searchQuery, loading, error, loadTree, toggleExpand, selectFolder, onSearch }
+  return { displayTree, selectedId, breadcrumb, expanded, searchQuery, loading, error, loadTree, toggleExpand, selectFolder, onSearch }
 }

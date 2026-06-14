@@ -6,7 +6,7 @@ import FolderContents from "./modules/folder/components/FolderContents.vue"
 import { useFolderTree, useFolderContents } from "./modules/folder"
 
 const {
-  displayTree, selectedId, selectedName, expanded, searchQuery, loading,
+  displayTree, selectedId, breadcrumb, expanded, searchQuery, loading,
   loadTree, toggleExpand, selectFolder, onSearch,
 } = useFolderTree()
 
@@ -39,7 +39,7 @@ onMounted(loadTree)
 
       <main class="flex-1 overflow-hidden">
         <div class="hidden md:block h-full">
-          <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :selectedName="selectedName" @selectFolder="onSelect" />
+          <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :breadcrumb="breadcrumb" @selectFolder="onSelect" />
         </div>
 
         <div class="md:hidden flex flex-col h-full">
@@ -51,13 +51,13 @@ onMounted(loadTree)
             />
           </div>
           <div v-show="activeTab === 'contents'" class="flex-1 overflow-hidden">
-            <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :selectedName="selectedName" @selectFolder="onSelect" />
+            <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :breadcrumb="breadcrumb" @selectFolder="onSelect" />
           </div>
           <nav class="flex border-t border-gray-200 bg-white flex-shrink-0">
-            <button @click="activeTab = 'tree'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'tree' ? 'text-blue-600' : 'text-gray-500'">
+            <button @click="activeTab = 'tree'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors cursor-pointer" :class="activeTab === 'tree' ? 'text-blue-600' : 'text-gray-500'">
               <Folder class="w-5 h-5" /><span>Folders</span>
             </button>
-            <button @click="activeTab = 'contents'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'contents' ? 'text-blue-600' : 'text-gray-500'">
+            <button @click="activeTab = 'contents'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors cursor-pointer" :class="activeTab === 'contents' ? 'text-blue-600' : 'text-gray-500'">
               <File class="w-5 h-5" /><span>Contents</span>
             </button>
           </nav>

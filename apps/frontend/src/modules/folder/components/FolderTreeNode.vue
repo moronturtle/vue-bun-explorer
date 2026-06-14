@@ -30,7 +30,7 @@ const isSelected = computed(() => props.selectedId === props.node.id)
       <button
         v-if="hasChildren"
         @click.stop="emit('toggle', node.id)"
-        class="w-4 h-4 flex items-center justify-center text-gray-400 flex-shrink-0 transition-transform duration-150"
+        class="w-4 h-4 flex items-center justify-center text-gray-400 flex-shrink-0 transition-transform duration-150 cursor-pointer"
         :class="isExpanded ? 'rotate-90' : ''"
       >
         <ChevronRight class="w-4 h-4" />
