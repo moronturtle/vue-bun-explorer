@@ -7,7 +7,8 @@
     "lint": "eslint src",
     "prisma:generate": "bunx prisma generate",
     "prisma:migrate": "bunx prisma db push",
-    "prisma:studio": "bunx prisma studio"
+    "prisma:studio": "bunx prisma studio",
+    "prisma:seed": "bunx prisma generate && bun run prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

@@ -66,6 +66,8 @@ Start PostgreSQL using Docker Compose:
 docker-compose up -d
 ```
 
+**Note:** Make sure Docker Desktop is running before executing this command.
+
 This will:
 - Download and start PostgreSQL 16 Alpine image
 - Create a database named `vue_bun_explorer`
@@ -131,7 +133,18 @@ cd apps/frontend
 bun run dev
 ```
 
-### 6. Access the Application
+### 6. Seed Data (Optional)
+
+Populate database with sample data for testing:
+
+```bash
+cd apps/backend
+bun run prisma:seed
+```
+
+**Note:** Run `docker-compose up -d` first to start PostgreSQL before seeding data.
+
+### 7. Access the Application
 
 - Frontend: Open `http://localhost:5173` in your browser
 - Backend API: `http://localhost:3000` (or check backend console for actual port)
@@ -161,7 +174,3 @@ bun run dev
 - `bun run dev:frontend` - Start frontend only
 - `bun run build` - Build all apps
 - `bun run lint` - Lint all apps
-
-## License
-
-MIT

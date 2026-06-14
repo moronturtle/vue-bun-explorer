@@ -37,6 +37,7 @@ Thumbs.db
 
 # Prisma
 prisma/migrations/
+apps/backend/src/generated/
 
 # Misc
 .cache/
