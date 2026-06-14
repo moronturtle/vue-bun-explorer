@@ -14,7 +14,11 @@ export function useFolderContents(selectedId: Ref<string | null>) {
     error.value = null
     contents.value = null
     try {
-      contents.value = await getFolderChildren(id)
+      const [data] = await Promise.all([
+        getFolderChildren(id),
+        new Promise<void>(r => setTimeout(r, 300)),
+      ])
+      contents.value = data
     } catch {
       error.value = "Failed to load folder contents"
     } finally {
