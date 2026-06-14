@@ -1,47 +1,67 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, onMounted } from "vue"
+import FolderTree from "./modules/folder/components/FolderTree.vue"
+import FolderContents from "./modules/folder/components/FolderContents.vue"
+import { useFolderTree, useFolderContents } from "./modules/folder"
+
+const {
+  displayTree, selectedId, expanded, searchQuery, loading,
+  loadTree, toggleExpand, selectFolder, onSearch,
+} = useFolderTree()
+
+const { contents, loading: cLoading, error: cError } = useFolderContents(selectedId)
+const activeTab = ref<"tree" | "contents">("tree")
+
+function onSelect(id: string) {
+  selectFolder(id)
+  activeTab.value = "contents"
+}
+
+onMounted(loadTree)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div class="h-screen flex flex-col bg-white overflow-hidden">
+    <header class="flex items-center px-6 py-4 border-b border-gray-100 bg-white flex-shrink-0">
+      <span class="text-xl mr-3">🗂️</span>
+      <h1 class="text-xl font-semibold text-gray-800">Files</h1>
+    </header>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div class="flex flex-1 overflow-hidden">
+      <aside class="hidden md:flex flex-col w-60 lg:w-72 border-r border-gray-100 bg-gray-50 flex-shrink-0">
+        <FolderTree
+          :nodes="displayTree" :selectedId="selectedId" :expanded="expanded"
+          :searchQuery="searchQuery" :loading="loading"
+          @select="onSelect" @toggle="toggleExpand" @search="onSearch"
+        />
+      </aside>
+
+      <main class="flex-1 overflow-hidden">
+        <div class="hidden md:block h-full">
+          <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" @selectFolder="onSelect" />
+        </div>
+
+        <div class="md:hidden flex flex-col h-full">
+          <div v-show="activeTab === 'tree'" class="flex-1 overflow-hidden">
+            <FolderTree
+              :nodes="displayTree" :selectedId="selectedId" :expanded="expanded"
+              :searchQuery="searchQuery" :loading="loading"
+              @select="onSelect" @toggle="toggleExpand" @search="onSearch"
+            />
+          </div>
+          <div v-show="activeTab === 'contents'" class="flex-1 overflow-hidden">
+            <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" @selectFolder="onSelect" />
+          </div>
+          <nav class="flex border-t border-gray-200 bg-white flex-shrink-0">
+            <button @click="activeTab = 'tree'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'tree' ? 'text-blue-600' : 'text-gray-500'">
+              <span class="text-lg">📁</span><span>Folders</span>
+            </button>
+            <button @click="activeTab = 'contents'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'contents' ? 'text-blue-600' : 'text-gray-500'">
+              <span class="text-lg">📄</span><span>Contents</span>
+            </button>
+          </nav>
+        </div>
+      </main>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
