@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Folder, FolderOpen, AlertCircle } from "lucide-vue-next"
+import { ChevronRight, Folder, FolderOpen, AlertCircle } from "lucide-vue-next"
 import type { FolderChildren } from "../types/folder.types"
+import type { Crumb } from "../composables/useFolderTree"
 import FolderItem from "./FolderItem.vue"
 import FileItem from "./FileItem.vue"
 import LoadingSkeleton from "../../../shared/components/LoadingSkeleton.vue"
@@ -10,7 +11,7 @@ defineProps<{
   loading: boolean
   error: string | null
   selectedId: string | null
-  selectedName: string | null
+  breadcrumb: Crumb[]
 }>()
 
 defineEmits<{ (e: "selectFolder", id: string): void }>()
@@ -22,8 +23,18 @@ function isEmpty(c: FolderChildren) {
 
 <template>
   <div class="h-full flex flex-col overflow-hidden">
-    <div v-if="selectedName" class="px-6 py-4 border-b border-gray-100 flex-shrink-0">
-      <h2 class="text-lg font-semibold text-gray-800 truncate">{{ selectedName }}</h2>
+    <div v-if="breadcrumb.length" class="px-6 py-3 border-b border-gray-100 flex-shrink-0">
+      <div class="flex items-center gap-1 flex-wrap min-w-0">
+        <template v-for="(crumb, i) in breadcrumb" :key="crumb.id">
+          <ChevronRight v-if="i > 0" class="w-3.5 h-3.5 text-gray-300 flex-shrink-0" />
+          <button
+            v-if="i < breadcrumb.length - 1"
+            @click="$emit('selectFolder', crumb.id)"
+            class="text-sm text-gray-400 hover:text-blue-500 transition-colors cursor-pointer"
+          >{{ crumb.name }}</button>
+          <span v-else class="text-sm font-semibold text-gray-800">{{ crumb.name }}</span>
+        </template>
+      </div>
     </div>
 
     <div class="flex-1 overflow-y-auto p-6">
