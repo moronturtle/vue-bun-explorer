@@ -20,6 +20,7 @@
     "@vue-bun-explorer/shared-types": "workspace:*"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^24.12.2",
     "@vitejs/plugin-vue": "^6.0.6",
@@ -36,6 +37,7 @@
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.60.0",
     "prettier": "3.8.3",
+    "tailwindcss": "^4.3.1",
     "typescript": "~6.0.0",
     "vite": "^8.0.8",
     "vite-plugin-vue-devtools": "^8.1.1",
