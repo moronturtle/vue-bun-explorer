@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
+import { Folder, File } from "lucide-vue-next"
 import FolderTree from "./modules/folder/components/FolderTree.vue"
 import FolderContents from "./modules/folder/components/FolderContents.vue"
 import { useFolderTree, useFolderContents } from "./modules/folder"
 
 const {
-  displayTree, selectedId, expanded, searchQuery, loading,
+  displayTree, selectedId, selectedName, expanded, searchQuery, loading,
   loadTree, toggleExpand, selectFolder, onSearch,
 } = useFolderTree()
 
@@ -23,7 +24,7 @@ onMounted(loadTree)
 <template>
   <div class="h-screen flex flex-col bg-white overflow-hidden">
     <header class="flex items-center px-6 py-4 border-b border-gray-100 bg-white flex-shrink-0">
-      <span class="text-xl mr-3">🗂️</span>
+      <Folder class="w-6 h-6 mr-3 text-indigo-500" />
       <h1 class="text-xl font-semibold text-gray-800">Files</h1>
     </header>
 
@@ -38,7 +39,7 @@ onMounted(loadTree)
 
       <main class="flex-1 overflow-hidden">
         <div class="hidden md:block h-full">
-          <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" @selectFolder="onSelect" />
+          <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :selectedName="selectedName" @selectFolder="onSelect" />
         </div>
 
         <div class="md:hidden flex flex-col h-full">
@@ -50,14 +51,14 @@ onMounted(loadTree)
             />
           </div>
           <div v-show="activeTab === 'contents'" class="flex-1 overflow-hidden">
-            <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" @selectFolder="onSelect" />
+            <FolderContents :contents="contents" :loading="cLoading" :error="cError" :selectedId="selectedId" :selectedName="selectedName" @selectFolder="onSelect" />
           </div>
           <nav class="flex border-t border-gray-200 bg-white flex-shrink-0">
             <button @click="activeTab = 'tree'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'tree' ? 'text-blue-600' : 'text-gray-500'">
-              <span class="text-lg">📁</span><span>Folders</span>
+              <Folder class="w-5 h-5" /><span>Folders</span>
             </button>
             <button @click="activeTab = 'contents'" class="flex-1 py-3 text-xs flex flex-col items-center gap-1 transition-colors" :class="activeTab === 'contents' ? 'text-blue-600' : 'text-gray-500'">
-              <span class="text-lg">📄</span><span>Contents</span>
+              <File class="w-5 h-5" /><span>Contents</span>
             </button>
           </nav>
         </div>

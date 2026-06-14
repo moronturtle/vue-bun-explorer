@@ -3,6 +3,17 @@ import type { FolderNode } from "../types/folder.types"
 import { getFolderTree, searchFolders } from "../api/folder.api"
 import { useDebounce } from "../../../shared/composables/useDebounce"
 
+function findNode(nodes: FolderNode[], id: string): FolderNode | null {
+  for (const n of nodes) {
+    if (n.id === id) return n
+    if (n.children) {
+      const found = findNode(n.children, id)
+      if (found) return found
+    }
+  }
+  return null
+}
+
 export function useFolderTree() {
   const tree = ref<FolderNode[]>([])
   const searchQuery = ref("")
@@ -10,6 +21,7 @@ export function useFolderTree() {
   const searchResults = ref<FolderNode[]>([])
   const isSearchActive = ref(false)
   const selectedId = ref<string | null>(null)
+  const selectedName = ref<string | null>(null)
   const expanded = ref<Record<string, boolean>>({})
   const loading = ref(false)
   const error = ref<string | null>(null)
@@ -33,6 +45,8 @@ export function useFolderTree() {
   function selectFolder(id: string) {
     selectedId.value = id
     expanded.value[id] = true
+    const node = findNode(tree.value, id) ?? findNode(searchResults.value, id)
+    selectedName.value = node?.name ?? null
   }
 
   function onSearch(q: string) {
@@ -57,5 +71,5 @@ export function useFolderTree() {
     isSearchActive.value ? searchResults.value : tree.value
   )
 
-  return { displayTree, selectedId, expanded, searchQuery, loading, error, loadTree, toggleExpand, selectFolder, onSearch }
+  return { displayTree, selectedId, selectedName, expanded, searchQuery, loading, error, loadTree, toggleExpand, selectFolder, onSearch }
 }

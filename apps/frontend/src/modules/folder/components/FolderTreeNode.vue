@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
+import { ChevronRight, Folder, FolderOpen } from "lucide-vue-next"
 import FolderTreeNode from "./FolderTreeNode.vue"
 import type { FolderNode } from "../types/folder.types"
 
@@ -26,14 +27,16 @@ const isSelected = computed(() => props.selectedId === props.node.id)
       class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg cursor-pointer text-sm select-none transition-colors"
       :class="isSelected ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-100'"
     >
-      <span
+      <button
         v-if="hasChildren"
         @click.stop="emit('toggle', node.id)"
-        class="w-4 h-4 flex items-center justify-center text-gray-400 flex-shrink-0 text-xs transition-transform duration-150"
+        class="w-4 h-4 flex items-center justify-center text-gray-400 flex-shrink-0 transition-transform duration-150"
         :class="isExpanded ? 'rotate-90' : ''"
-      >▶</span>
+      >
+        <ChevronRight class="w-4 h-4" />
+      </button>
       <span v-else class="w-4 flex-shrink-0" />
-      <span class="text-base flex-shrink-0">📁</span>
+      <component :is="isExpanded ? FolderOpen : Folder" class="w-4 h-4 flex-shrink-0 text-blue-500" />
       <span class="truncate">{{ node.name }}</span>
     </div>
     <div v-if="hasChildren && isExpanded" class="ml-4">

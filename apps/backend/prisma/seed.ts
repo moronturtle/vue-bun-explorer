@@ -6,58 +6,58 @@ async function main() {
   await prisma.file.deleteMany()
   await prisma.folder.deleteMany()
 
-  const cDrive = await prisma.folder.create({ data: { name: "C:" } })
-  const dDrive = await prisma.folder.create({ data: { name: "D:" } })
+  const rsMauSehat = await prisma.folder.create({ data: { name: "RS Mau Sehat" } })
+  const puskesmasCempaka = await prisma.folder.create({ data: { name: "Puskesmas Cempaka" } })
 
-  const users = await prisma.folder.create({ data: { name: "Users", parentId: cDrive.id } })
-  const programFiles = await prisma.folder.create({ data: { name: "Program Files", parentId: cDrive.id } })
+  const medis = await prisma.folder.create({ data: { name: "Divisi Medis", parentId: rsMauSehat.id } })
+  const admin = await prisma.folder.create({ data: { name: "Administrasi", parentId: rsMauSehat.id } })
+  const penunjang = await prisma.folder.create({ data: { name: "Penunjang Medis", parentId: rsMauSehat.id } })
 
-  const dokter = await prisma.folder.create({ data: { name: "dr.Budi", parentId: users.id } })
-  await prisma.folder.create({ data: { name: "dr.Sari", parentId: users.id } })
+  const dokterUmum = await prisma.folder.create({ data: { name: "Dokter Umum", parentId: medis.id } })
+  const dokterSpesialis = await prisma.folder.create({ data: { name: "Dokter Spesialis", parentId: medis.id } })
+  const keperawatan = await prisma.folder.create({ data: { name: "Keperawatan", parentId: medis.id } })
 
-  const desktop = await prisma.folder.create({ data: { name: "Desktop", parentId: dokter.id } })
-  const documents = await prisma.folder.create({ data: { name: "Documents", parentId: dokter.id } })
-  const downloads = await prisma.folder.create({ data: { name: "Downloads", parentId: dokter.id } })
-  const pictures = await prisma.folder.create({ data: { name: "Foto Medis", parentId: dokter.id } })
+  const spJantung = await prisma.folder.create({ data: { name: "Sp. Jantung", parentId: dokterSpesialis.id } })
+  const spAnak = await prisma.folder.create({ data: { name: "Sp. Anak", parentId: dokterSpesialis.id } })
+  const spKandungan = await prisma.folder.create({ data: { name: "Sp. Kandungan", parentId: dokterSpesialis.id } })
 
-  const pasien = await prisma.folder.create({ data: { name: "Data Pasien", parentId: documents.id } })
-  const laporan = await prisma.folder.create({ data: { name: "Laporan", parentId: documents.id } })
-  const resep = await prisma.folder.create({ data: { name: "Resep Obat", parentId: documents.id } })
+  const keuangan = await prisma.folder.create({ data: { name: "Keuangan", parentId: admin.id } })
+  const kepegawaian = await prisma.folder.create({ data: { name: "Kepegawaian", parentId: admin.id } })
+  const pengadaan = await prisma.folder.create({ data: { name: "Pengadaan", parentId: admin.id } })
 
-  const rawatInap = await prisma.folder.create({ data: { name: "Rawat Inap", parentId: pasien.id } })
-  const rawatJalan = await prisma.folder.create({ data: { name: "Rawat Jalan", parentId: pasien.id } })
+  const laboratorium = await prisma.folder.create({ data: { name: "Laboratorium", parentId: penunjang.id } })
+  const radiologi = await prisma.folder.create({ data: { name: "Radiologi", parentId: penunjang.id } })
+  const farmasi = await prisma.folder.create({ data: { name: "Farmasi", parentId: penunjang.id } })
 
-  const backup = await prisma.folder.create({ data: { name: "Backup Data", parentId: dDrive.id } })
-  const arsip = await prisma.folder.create({ data: { name: "Arsip", parentId: dDrive.id } })
+  const layananUmum = await prisma.folder.create({ data: { name: "Layanan Umum", parentId: puskesmasCempaka.id } })
+  const programKesehatan = await prisma.folder.create({ data: { name: "Program Kesehatan", parentId: puskesmasCempaka.id } })
+  const imunisasi = await prisma.folder.create({ data: { name: "Imunisasi", parentId: puskesmasCempaka.id } })
 
-  await prisma.folder.create({ data: { name: "Data 2023", parentId: backup.id } })
-  await prisma.folder.create({ data: { name: "Data 2024", parentId: backup.id } })
-  await prisma.folder.create({ data: { name: "2022", parentId: arsip.id } })
-  await prisma.folder.create({ data: { name: "2023", parentId: arsip.id } })
-  await prisma.folder.create({ data: { name: "Microsoft Office", parentId: programFiles.id } })
+  const laporanBulanan = await prisma.folder.create({ data: { name: "Laporan Bulanan", parentId: layananUmum.id } })
+  const rekamMedis = await prisma.folder.create({ data: { name: "Rekam Medis", parentId: layananUmum.id } })
 
   await prisma.file.createMany({
     data: [
-      { name: "rekam-medis-ahmad.pdf", size: 245760n, mimeType: "application/pdf", folderId: rawatInap.id },
-      { name: "rekam-medis-siti.pdf", size: 198400n, mimeType: "application/pdf", folderId: rawatInap.id },
-      { name: "rekam-medis-budi.pdf", size: 176000n, mimeType: "application/pdf", folderId: rawatInap.id },
-      { name: "rekam-medis-rina.pdf", size: 210000n, mimeType: "application/pdf", folderId: rawatJalan.id },
-      { name: "rekam-medis-joko.pdf", size: 189000n, mimeType: "application/pdf", folderId: rawatJalan.id },
-      { name: "hasil-lab-darah.pdf", size: 102400n, mimeType: "application/pdf", folderId: pasien.id },
-      { name: "hasil-lab-urine.pdf", size: 98304n, mimeType: "application/pdf", folderId: pasien.id },
-      { name: "laporan-bulanan-januari.docx", size: 512000n, mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", folderId: laporan.id },
-      { name: "laporan-bulanan-februari.docx", size: 487000n, mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", folderId: laporan.id },
-      { name: "laporan-keuangan.xlsx", size: 204800n, mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", folderId: laporan.id },
-      { name: "resep-amoxicillin.pdf", size: 45000n, mimeType: "application/pdf", folderId: resep.id },
-      { name: "resep-paracetamol.pdf", size: 42000n, mimeType: "application/pdf", folderId: resep.id },
-      { name: "resep-vitamin-c.pdf", size: 38000n, mimeType: "application/pdf", folderId: resep.id },
-      { name: "rontgen-dada-ahmad.jpg", size: 3145728n, mimeType: "image/jpeg", folderId: pictures.id },
-      { name: "rontgen-lutut-siti.jpg", size: 2097152n, mimeType: "image/jpeg", folderId: pictures.id },
-      { name: "usg-kandungan.jpg", size: 2500000n, mimeType: "image/jpeg", folderId: pictures.id },
-      { name: "jadwal-dokter-juni.pdf", size: 153600n, mimeType: "application/pdf", folderId: desktop.id },
-      { name: "sop-penanganan-darurat.pdf", size: 98304n, mimeType: "application/pdf", folderId: desktop.id },
-      { name: "panduan-kesehatan.pdf", size: 320000n, mimeType: "application/pdf", folderId: downloads.id },
-      { name: "formulir-pendaftaran.pdf", size: 98304n, mimeType: "application/pdf", folderId: downloads.id },
+      { name: "rekam-medis-ahmad-2024.pdf", size: 245760n, mimeType: "application/pdf", folderId: rekamMedis.id },
+      { name: "rekam-medis-siti-2024.pdf", size: 198400n, mimeType: "application/pdf", folderId: rekamMedis.id },
+      { name: "rekam-medis-budi-2024.pdf", size: 176000n, mimeType: "application/pdf", folderId: rekamMedis.id },
+      { name: "laporan-januari-2024.docx", size: 512000n, mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", folderId: laporanBulanan.id },
+      { name: "laporan-februari-2024.docx", size: 487000n, mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", folderId: laporanBulanan.id },
+      { name: "laporan-keuangan-q1.xlsx", size: 204800n, mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", folderId: keuangan.id },
+      { name: "anggaran-2024.xlsx", size: 318000n, mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", folderId: keuangan.id },
+      { name: "daftar-pegawai.xlsx", size: 156000n, mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", folderId: kepegawaian.id },
+      { name: "sk-pengangkatan.pdf", size: 98304n, mimeType: "application/pdf", folderId: kepegawaian.id },
+      { name: "hasil-lab-darah-rutin.pdf", size: 102400n, mimeType: "application/pdf", folderId: laboratorium.id },
+      { name: "hasil-lab-kimia-klinik.pdf", size: 115200n, mimeType: "application/pdf", folderId: laboratorium.id },
+      { name: "rontgen-thorax-001.jpg", size: 3145728n, mimeType: "image/jpeg", folderId: radiologi.id },
+      { name: "rontgen-thorax-002.jpg", size: 2097152n, mimeType: "image/jpeg", folderId: radiologi.id },
+      { name: "usg-abdomen-001.jpg", size: 2500000n, mimeType: "image/jpeg", folderId: radiologi.id },
+      { name: "stok-obat-april.xlsx", size: 89000n, mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", folderId: farmasi.id },
+      { name: "resep-harian.pdf", size: 45000n, mimeType: "application/pdf", folderId: farmasi.id },
+      { name: "jadwal-jantung-juni.pdf", size: 56000n, mimeType: "application/pdf", folderId: spJantung.id },
+      { name: "panduan-program-kesehatan.pdf", size: 320000n, mimeType: "application/pdf", folderId: programKesehatan.id },
+      { name: "jadwal-imunisasi-2024.pdf", size: 98304n, mimeType: "application/pdf", folderId: imunisasi.id },
+      { name: "sop-penanganan-bayi.pdf", size: 134000n, mimeType: "application/pdf", folderId: spAnak.id },
     ],
   })
 
