@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { app } from "./app";
 
-const prisma = new PrismaClient();
+app.listen(3000);
 
-console.log("ready");
+console.log(`Server running at http://localhost:${app.server?.port}`);

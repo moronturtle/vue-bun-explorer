@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -7,11 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model File {
-  id        Int      @id @default(autoincrement())
+model Folder {
+  id        String   @id @default(uuid())
   name      String
-  path      String
-  size      Int?
+  parentId  String?
+  parent    Folder?  @relation("FolderChildren", fields: [parentId], references: [id])
+  children  Folder[] @relation("FolderChildren")
+  files     File[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  size      BigInt
+  mimeType  String
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  createdAt DateTime @default(now())
 }

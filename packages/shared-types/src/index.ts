@@ -1,20 +1,21 @@
-export interface FileSystemItem {
+export interface FolderFile {
   id: string;
   name: string;
-  type: 'file' | 'folder';
-  size?: number;
-  createdAt: Date;
-  updatedAt: Date;
-  path: string;
-}
-
-export interface Folder extends FileSystemItem {
-  type: 'folder';
-  children?: FileSystemItem[];
-}
-
-export interface File extends FileSystemItem {
-  type: 'file';
   size: number;
-  extension?: string;
+  mimeType: string;
+  folderId: string;
+  createdAt: Date;
+}
+
+export interface FolderNode {
+  id: string;
+  name: string;
+  parentId: string | null;
+  createdAt: Date;
+  children?: FolderNode[];
+}
+
+export interface FolderChildren {
+  folders: FolderNode[];
+  files: FolderFile[];
 }
