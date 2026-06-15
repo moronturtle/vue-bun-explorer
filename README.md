@@ -2,6 +2,10 @@
 
 A Windows Explorer-like web application built with Bun, Elysia, Vue 3, and PostgreSQL.
 
+## Screenshot
+
+![App Screenshot](screenshoots/apps_screenshoot.png)
+
 ## Project Structure
 
 This is a monorepo using Bun workspaces:
