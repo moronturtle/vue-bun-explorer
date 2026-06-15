@@ -20,23 +20,26 @@ const toFolderFile = (f: File): FolderFile => ({
   createdAt: f.createdAt,
 })
 
+export function buildTree(nodes: FolderNode[]): FolderNode[] {
+  const map = new Map(nodes.map((n) => [n.id, n]))
+  const roots: FolderNode[] = []
+
+  for (const node of nodes) {
+    if (node.parentId && map.has(node.parentId)) {
+      map.get(node.parentId)!.children!.push(node)
+    } else {
+      roots.push(node)
+    }
+  }
+
+  return roots
+}
+
 export class FolderRepository implements IFolderRepository {
   async findAll(): Promise<FolderNode[]> {
     const rows = await prisma.folder.findMany({ orderBy: { name: "asc" } })
-
-    const map = new Map(rows.map((r) => [r.id, toFolderNode(r)]))
-    const roots: FolderNode[] = []
-
-    for (const row of rows) {
-      const node = map.get(row.id)!
-      if (row.parentId && map.has(row.parentId)) {
-        map.get(row.parentId)!.children!.push(node)
-      } else {
-        roots.push(node)
-      }
-    }
-
-    return roots
+    const nodes = rows.map(toFolderNode)
+    return buildTree(nodes)
   }
 
   async findChildren(folderId: string): Promise<FolderChildren> {
