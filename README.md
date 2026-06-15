@@ -154,18 +154,23 @@ bun run prisma:seed
 - Backend API: `http://localhost:3000` (or check backend console for actual port)
 - Prisma Studio (optional): Run `cd apps/backend && bun run prisma:studio` to manage database visually
 
-## Apps & Packages
+## Tech Stack
 
 ### Backend (`apps/backend`)
-- Runtime: Bun
-- Framework: Elysia
-- ORM: Prisma
-- Database: PostgreSQL
+- **Runtime**: Bun
+- **Framework**: Elysia
+- **ORM**: Prisma
+- **Database**: PostgreSQL
+- **Language**: TypeScript
 
 ### Frontend (`apps/frontend`)
-- Framework: Vue 3
-- Build Tool: Vite
-- Language: TypeScript
+- **Framework**: Vue 3 (Composition API with `<script setup>`)
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS v4
+- **Icons**: lucide-vue-next
+- **Language**: TypeScript
+- **Testing**: Vitest
+- **Linting**: ESLint + Prettier
 
 ### Shared Types (`packages/shared-types`)
 - Shared TypeScript interfaces and types
