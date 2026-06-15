@@ -5,6 +5,7 @@
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
     "lint": "eslint src",
+    "test": "bun test",
     "prisma:generate": "bunx prisma generate",
     "prisma:migrate": "bunx prisma db push",
     "prisma:studio": "bunx prisma studio",

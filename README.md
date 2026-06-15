@@ -183,3 +183,31 @@ bun run prisma:seed
 - `bun run dev:frontend` - Start frontend only
 - `bun run build` - Build all apps
 - `bun run lint` - Lint all apps
+
+## Testing
+
+### Backend Tests
+Run backend unit tests:
+```bash
+cd apps/backend
+bun test
+```
+
+Run with coverage:
+```bash
+cd apps/backend
+bun test --coverage
+```
+
+### Frontend Tests
+Run frontend unit tests:
+```bash
+cd apps/frontend
+bun run test
+```
+
+Run with coverage:
+```bash
+cd apps/frontend
+bun run test --coverage
+```
