@@ -113,7 +113,18 @@ bun run prisma:generate
 > - When adding a new table: run `prisma migrate` first, then `prisma generate`
 > - You do NOT need to run these every time you start development
 
-### 5. Start Development Servers - *Run this every time you want to develop*
+### 5. Seed Data (Optional)
+
+Populate database with sample data for testing:
+
+```bash
+cd apps/backend
+bun run prisma:seed
+```
+
+**Note:** Run `docker-compose up -d` first to start PostgreSQL before seeding data.
+
+### 6. Start Development Servers - *Run this every time you want to develop*
 
 **Option 1: Run both backend and frontend from root**
 
@@ -136,17 +147,6 @@ bun run dev
 cd apps/frontend
 bun run dev
 ```
-
-### 6. Seed Data (Optional)
-
-Populate database with sample data for testing:
-
-```bash
-cd apps/backend
-bun run prisma:seed
-```
-
-**Note:** Run `docker-compose up -d` first to start PostgreSQL before seeding data.
 
 ### 7. Access the Application
 
