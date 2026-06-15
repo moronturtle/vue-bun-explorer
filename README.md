@@ -211,3 +211,20 @@ Run with coverage:
 cd apps/frontend
 bun run test --coverage
 ```
+
+## API Versioning
+
+All endpoints are prefixed with `/api/v1/` for versioning.
+
+**Current Version:** v1
+
+**Base URL:** `http://localhost:3000/api/v1`
+
+**Endpoints:**
+- `GET /api/v1/folders` - Get complete folder tree
+- `GET /api/v1/folders/search?q=<query>` - Search folders by name
+- `GET /api/v1/folders/:id/children` - Get direct children of a folder
+### Response Format
+All responses return JSON.
+Successful responses return data directly.
+Empty results return empty arrays, not errors.

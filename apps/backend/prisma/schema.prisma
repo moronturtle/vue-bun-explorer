@@ -16,6 +16,10 @@ model Folder {
   children  Folder[] @relation("FolderChildren")
   files     File[]
   createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([parentId])
+  @@index([createdAt])
 }
 
 model File {
@@ -26,4 +30,9 @@ model File {
   folderId  String
   folder    Folder   @relation(fields: [folderId], references: [id])
   createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([folderId])
+  @@index([mimeType])
+  @@index([createdAt])
 }
