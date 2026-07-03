@@ -25,7 +25,9 @@ yarn-error.log*
 bun.lockb
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
