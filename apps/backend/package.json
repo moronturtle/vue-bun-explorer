@@ -2,7 +2,7 @@
   "name": "@vue-bun-explorer/backend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
     "lint": "eslint src",
     "test": "bun test",

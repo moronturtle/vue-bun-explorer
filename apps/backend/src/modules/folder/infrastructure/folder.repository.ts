@@ -31,13 +31,13 @@ export function buildTree(nodes: FolderNode[]): FolderNode[] {
       roots.push(node)
     }
   }
-
   return roots
 }
 
 export class FolderRepository implements IFolderRepository {
   async findAll(): Promise<FolderNode[]> {
     const rows = await prisma.folder.findMany({ orderBy: { name: "asc" } })
+    console.log('rows', rows);
     const nodes = rows.map(toFolderNode)
     return buildTree(nodes)
   }

@@ -16,7 +16,7 @@ model Folder {
   children  Folder[] @relation("FolderChildren")
   files     File[]
   createdAt DateTime @default(now())
-
+   
   @@index([name])
   @@index([parentId])
   @@index([createdAt])

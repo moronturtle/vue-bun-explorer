@@ -3,9 +3,11 @@ import type { FolderNode, FolderChildren } from "../domain/folder.entity";
 import { HttpError } from "../../../shared/errors/http.error";
 
 export class FolderService {
-  constructor(private readonly repository: IFolderRepository) {}
+  constructor(private readonly repository: IFolderRepository) { }
 
   async getTree(): Promise<FolderNode[]> {
+    const b = await this.repository.findAll();
+    console.log('bonney kumay', JSON.stringify(b, null, 2))
     return this.repository.findAll();
   }
   async getChildren(folderId: string): Promise<FolderChildren> {
